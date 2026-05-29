@@ -31,7 +31,7 @@ This project implements a CrewAI agent team designed to **assist** in the prelim
 
 1.  **Get the Notebook:** Clone the repository or download the `.ipynb` file.
 2.  **Open in Colab:** Upload and open the notebook in Google Colab ([colab.research.google.com](https://colab.research.google.com/)).
-3.  **Install libraries:** Run the first cell (`# @title 1. Install Necessary Libraries`) to install `crewai`, `langchain-openai`, etc.
+3.  **Install libraries:** Run the first cell (`# @title 1. Install necessary libraries`) to install `crewai`, `crewai-tools`, `pymupdf` (for PDF parsing), etc.
 4.  **Configure OpenAI API Key in Colab Secrets:**
     *   In Colab, click the **Key icon** in the left sidebar ("Secrets").
     *   Enable "Notebook access".
@@ -43,9 +43,10 @@ This project implements a CrewAI agent team designed to **assist** in the prelim
 
 ## How to Use
 
-1.  **Input contract text (Cell 3):**
-    *   Locate the cell titled `# @title 3. Define Input Contract Text...`.
-    *   **Replace** the example text within the triple quotes (`"""..."""`) assigned to the `contract_text` variable with the actual contract text you want to analyze. Try to preserve formatting like numbering if possible.
+1.  **Upload & load the contract (Cell 3):**
+    *   Locate the cell titled `# @title 3. Upload contract & define text...`.
+    *   Upload your contract file (**PDF or TXT** supported) to the Colab session via the **Folder** icon in the left sidebar, then copy its path.
+    *   Paste that path into the `uploaded_file_path` field and run the cell. The cell extracts the text (PyMuPDF for PDFs) into the `contract_text` variable and prints a short preview.
     *   **Acknowledge the disclaimer** printed by this cell before proceeding.
 2.  **Select LLM (Optional - Cell 4):**
     *   In Cell 4 (`# @title 4. Select LLM...`), ensure you are using an appropriate model. GPT-4 Turbo is highly recommended.
@@ -69,7 +70,7 @@ The crew processes the contract text through these stages:
 
 *   **Risk patterns:** Modify the `goal` description of the `risk_pattern_detector` agent (Cell 5) and the corresponding `task_detect_risks` description (Cell 6) to add, remove, or refine the specific risk patterns you want to flag.
 *   **Ambiguity criteria:** Adjust the prompts for the `ambiguity_identifier` agent and task to focus on different types of clarity issues.
-*   **Input format:** For real-world use, you would likely need to add tools (e.g., using libraries like `pypdf` or `python-docx`) and modify the `contract_parser` agent/task to handle PDF or DOCX files instead of just plain text pasted into the notebook.
+*   **Input format:** PDF and TXT inputs are supported out of the box (Cell 3 uses PyMuPDF for PDF text extraction). To support additional formats such as DOCX, you would add the relevant parsing library (e.g., `python-docx`) and extend the file-loading logic in Cell 3.
 *   **Clause classification:** You could remove the `clause_classifier` agent and `task_classify_clauses` if desired, simplifying the flow but potentially making the risk/ambiguity detection slightly less focused. Adjust subsequent task contexts accordingly.
 
 ## Limitations & critical disclaimer (Reiteration)
